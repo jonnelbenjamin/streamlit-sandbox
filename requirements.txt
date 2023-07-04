@@ -1,0 +1,6 @@
+streamlit
+spacy
+langchain
+transformers
+wikipedia
+torch
