@@ -28,3 +28,18 @@ Install necessary libraries:
 Run the application with the following command:
 
  `streamlit run app.py`
+
+
+#### Folder Structure
+my_app/
+├── app.py                  # Main entry point
+├── components/
+│   ├── __init__.py
+│   ├── dependency_viz.py   # Dependency visualizer
+│   ├── entity_viz.py       # Entity visualizer
+│   ├── qa_system.py       # Question answering
+│   ├── image_gen.py       # Image generator
+│   └── ner_stats.py       # NER statistics
+└── utils/
+    ├── __init__.py
+    └── config.py          # Shared configurations
