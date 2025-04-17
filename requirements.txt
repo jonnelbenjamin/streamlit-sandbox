@@ -10,3 +10,5 @@ accelerate
 torchaudio
 plotly
 scikit-learn
+prophet
+yfinance

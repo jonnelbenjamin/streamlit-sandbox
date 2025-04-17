@@ -6,7 +6,7 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import wikipedia
 
 import pandas as pd
-from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal
+from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting
 
 
 nlp = spacy.load('en_core_web_sm')
@@ -19,7 +19,8 @@ app_mode = st.sidebar.radio("Choose a module", [
     "QA System",
     "Image Generator",
     "NER Statistics",
-    "Multimodal Playground" 
+    "Multimodal Playground",
+    "Prophet Forecasting"
 ])
 
 # Dynamic rendering
@@ -35,6 +36,8 @@ elif app_mode == "NER Statistics":
     ner_stats.show()
 elif app_mode == "Multimodal Playground":
     huggingface_multimodal.show()
+elif app_mode == "Prophet Forecasting":
+    forecasting.run_forecasting()
 
 
 # Footer (shared across all pages)
