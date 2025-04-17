@@ -11,8 +11,7 @@ Create virtual environment:
  
  `source env/bin/activate`
  
- You can deactivate the virtual environment as well:
- 
+ To deactivate the virtual environment, run:
  `deactivate`
  
 Install necessary libraries:
