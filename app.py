@@ -7,30 +7,31 @@ import wikipedia
 from diffusers import StableDiffusionPipeline
 import torch
 import pandas as pd
+from components import dependency_viz, entity_viz
 
 
 nlp = spacy.load('en_core_web_sm')
 
+# Sidebar navigation
+st.sidebar.title("Navigation")
+app_mode = st.sidebar.radio("Choose a module", [
+    "Dependency Visualizer",
+    "Entity Visualizer",
+    "QA System",
+    "Image Generator",
+    "NER Statistics"
+])
 
-# Display a section header:
-st.header("Dependency visualizer")
-# st.text_input takes a label and default text string:
-input_text = st.text_input("Write some text here to analyze: ", "")
-# Send the text string to the SpaCy nlp object for converting to a 'doc' object.
-doc = nlp(input_text)
+# Dynamic rendering
+if app_mode == "Dependency Visualizer":
+    dependency_viz.show()
+elif app_mode == "Entity Visualizer":
+    entity_viz.show()
 
-# Use spacy's render() function to generate SVG.
-# style="dep" indicates dependencies should be generated.
-dep_svg = displacy.render(doc, style="dep", jupyter=False)
-st.image(dep_svg, width=400, use_container_width="never")
 
-# Add a section header:
-st.header("Entity visualizer")
-# Take the text from the input field and render the entity html.
-# Note that style="ent" indicates entities.
-ent_html = displacy.render(doc, style="ent", jupyter=False)
-# Display the entity visualization in the browser:
-st.markdown(ent_html, unsafe_allow_html=True)
+# Footer (shared across all pages)
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Created by Jonnel Benjamin")
 
 # Set favicon
 # st.set_page_config(page_title="Streamlit App", page_icon="static/res/favicon.png")
