@@ -7,3 +7,6 @@ torch
 langchain-community
 diffusers
 accelerate
+torchaudio
+plotly
+scikit-learn

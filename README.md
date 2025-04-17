@@ -1,5 +1,5 @@
 # streamlit-sandbox
-Sandbox for testing features and use cases for streamlit library
+Sandbox for testing features and use cases for streamlit and huggingface libraries
 
 #### Run the following command for starting application
 
@@ -21,6 +21,8 @@ Install necessary libraries:
  - `pip install spacy`
 
  - `python -m spacy download en_core_web_sm`
+
+ - `python -m spacy download en_core_web_lg`
 
  - `python -m spacy download en_core_web_trf`
 
