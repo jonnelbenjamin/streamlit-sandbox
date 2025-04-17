@@ -6,7 +6,7 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import wikipedia
 
 import pandas as pd
-from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, show_multimodal
+from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal
 
 
 nlp = spacy.load('en_core_web_sm')
@@ -34,7 +34,7 @@ elif app_mode == "Image Generator":
 elif app_mode == "NER Statistics":
     ner_stats.show()
 elif app_mode == "Multimodal Playground":
-    show_multimodal()
+    huggingface_multimodal.show()
 
 
 # Footer (shared across all pages)

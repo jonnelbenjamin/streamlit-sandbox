@@ -62,7 +62,7 @@ def show():
                         st.error("Couldn't load image from URL")
             
             if image:
-                st.image(image, caption="Input Image", use_column_width=True)
+                st.image(image, caption="Input Image", use_container_width=True)
 
         with col2:
             if image:
@@ -136,7 +136,7 @@ def show():
                 cols = st.columns(num_results)
                 for i, (url, score, img) in enumerate(results[:num_results]):
                     with cols[i]:
-                        st.image(img, use_column_width=True)
+                        st.image(img, use_container_width=True)
                         st.progress(score, text=f"Match: {score:.0%}")
 
     # Unique Feature 3: Audio Classification with Live Recording
@@ -146,7 +146,14 @@ def show():
         audio_source = st.radio("Audio source", ["Record", "Upload"])
         
         if audio_source == "Record":
-            audio_bytes = st.audio("record", format="audio/wav")
+            uploaded_file = st.file_uploader("Upload audio", type=["wav"])
+            audio_bytes = uploaded_file.read()
+    
+            # 3. Use Hugging Face pipeline with bytes
+            pipe = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+            result = pipe(audio_bytes)
+    
+            st.write("Transcription:", result["text"])
         else:
             audio_file = st.file_uploader("Upload audio", type=["wav", "mp3"])
         
