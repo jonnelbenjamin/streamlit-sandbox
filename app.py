@@ -4,9 +4,11 @@ from spacy import displacy
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 from langchain.utilities import WikipediaAPIWrapper
 import wikipedia
+from diffusers import StableDiffusionPipeline
+import torch
 
 
-nlp = spacy.load('en_core_web_md')
+nlp = spacy.load('en_core_web_sm')
 
 
 # Display a section header:
@@ -19,7 +21,7 @@ doc = nlp(input_text)
 # Use spacy's render() function to generate SVG.
 # style="dep" indicates dependencies should be generated.
 dep_svg = displacy.render(doc, style="dep", jupyter=False)
-st.image(dep_svg, width=400, use_column_width="never")
+st.image(dep_svg, width=400, use_container_width="never")
 
 # Add a section header:
 st.header("Entity visualizer")
@@ -86,6 +88,32 @@ if question_input:
     # Display the answer
     st.text_area("Answer:", res['answer'])
     st.write("Score:", res['score'])
+
+
+# Streamlit UI
+st.title("🎨 AI Image Generator")
+prompt = st.text_input("Describe your image (e.g., 'a cyberpunk cat')")
+creativity = st.slider("Creativity (higher = more random)", 0.0, 1.0, 0.7)
+
+if st.button("Generate Image"):
+    if prompt:
+        with st.spinner("✨ Generating your image..."):
+            # Load Hugging Face Stable Diffusion
+            pipe = StableDiffusionPipeline.from_pretrained(
+                "runwayml/stable-diffusion-v1-5",
+                torch_dtype=torch.float32
+            ).to("cuda" if torch.cuda.is_available() else "cpu")
+
+            # Generate image
+            image = pipe(
+                prompt, 
+                guidance_scale=7.5,  # Controls creativity (higher = more diverse)
+                num_inference_steps=50
+            ).images[0]
+
+            st.image(image, caption=f"Generated: '{prompt}'")
+    else:
+        st.warning("Please enter a prompt!")
 
 st.markdown(
     '''

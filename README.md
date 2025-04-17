@@ -21,6 +21,8 @@ Install necessary libraries:
 
  - `pip install spacy`
 
+ - `python -m spacy download en_core_web_sm`
+
 Run the application with the following command:
 
  `streamlit run app.py`

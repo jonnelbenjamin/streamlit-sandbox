@@ -4,3 +4,6 @@ langchain
 transformers
 wikipedia
 torch
+langchain-community
+diffusers
+accelerate
