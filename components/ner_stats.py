@@ -2,6 +2,7 @@ import streamlit as st
 import spacy
 from spacy import displacy
 from streamlit.components.v1 import html
+import pandas as pd
 
 # Load the latest spaCy model (replace with 'en_core_web_trf' for transformer-based)
 nlp = spacy.load("en_core_web_lg")

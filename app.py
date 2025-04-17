@@ -4,8 +4,7 @@ from spacy import displacy
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 
 import wikipedia
-from diffusers import StableDiffusionPipeline
-import torch
+
 import pandas as pd
 from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats
 

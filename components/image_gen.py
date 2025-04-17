@@ -1,4 +1,6 @@
 import streamlit as st
+from diffusers import StableDiffusionPipeline
+import torch
 
 def show():
     # Streamlit UI
