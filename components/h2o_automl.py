@@ -50,9 +50,12 @@ def train_automl_models(df, h2o_df, target_col, selected_features, max_models, m
     
     # Specify problem type if explicitly chosen
     if problem_type == "Regression":
-        h2o_df[y] = h2o_df[y].asfactor() if h2o_df[y].is_numeric() else h2o_df[y]
+        if is_numeric_target:  # Use pandas df to check if numeric
+            pass  # Keep as is for regression
+        else:
+            st.warning("Target column doesn't appear to be numeric but regression was selected")
     elif problem_type == "Classification":
-        h2o_df[y] = h2o_df[y].asfactor()
+        h2o_df[y] = h2o_df[y].asfactor()  # Convert to factor for classification
     
     # Train the models
     with st.spinner(f"Training up to {max_models} models with a maximum runtime of {max_runtime_secs} seconds..."):
@@ -78,7 +81,7 @@ def train_automl_models(df, h2o_df, target_col, selected_features, max_models, m
     st.subheader("Performance Metrics")
     
     # Different metrics for classification and regression
-    if best_model.model_category == "Binomial" or best_model.model_category == "Multinomial":
+    if best_model.model_category in ["Binomial", "Multinomial"]:
         # Classification metrics
         perf = best_model.model_performance()
         metrics_df = pd.DataFrame({
@@ -236,7 +239,8 @@ def show():
         
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
-            st.error("Traceback:", exc_info=True)
+            import traceback
+            st.error(f"Traceback: {traceback.format_exc()}")
     
     else:
         # Sample datasets option
