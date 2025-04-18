@@ -30,9 +30,16 @@ Run the application with the following command:
 
  `streamlit run app.py`
 
+ ### Make Commands:
+
+- Run `make setup` to install requirements and language models
+- Run `make run` to start your Streamlit app
+- Use `make clean` when you want to clean up cache files
+- Use `make` to execute the default `all` target, which will set up dependencies and then run the app
+
 
 #### Folder Structure
-my_app/
+streamlit-sandbox/
 ├── app.py                  # Main entry point
 ├── components/
 │   ├── __init__.py
