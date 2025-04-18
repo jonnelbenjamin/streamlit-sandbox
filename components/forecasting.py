@@ -5,18 +5,19 @@ from prophet import Prophet
 import matplotlib.pyplot as plt
 import requests
 import yfinance as yf
+import zipfile
+import os
 
-def load_data(url):
-    # Fetch and load data from a CSV file or URL
-    if url.startswith('http'):
-        return pd.read_csv(url)
-    else:
-        return pd.read_csv(StringIO(url))
 
-def plot_metrics(forecast):
+# Function to load the CSV file
+def load_data(file_path):
+    df = pd.read_excel(file_path)
+    return df
+
+def plot_metrics(forecast, df):
     # Plot the key metrics: actual vs predicted
     fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-    ax.plot(forecast['ds'], forecast['y'], label='Actual')
+    ax.plot(forecast['ds'], df['y'], label='Actual')
     ax.plot(forecast['ds'], forecast['yhat'], label='Predicted')
     ax.fill_between(forecast['ds'], forecast['yhat_lower'], forecast['yhat_upper'], color='gray', alpha=0.2)
     ax.set_title("Forecast vs Actuals")
@@ -36,21 +37,24 @@ def run_forecasting():
 
     # 1. **Sales Forecasting** - Retail Sales
     st.subheader("Sales Forecasting")
-    sales_data_url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/retail-sales.csv"  # replace with your dataset
-    df_sales = load_data(sales_data_url)
-    df_sales.columns = ['ds', 'y']
-    df_sales['ds'] = pd.to_datetime(df_sales['ds'])
+    retail_file_path = './components/datasets/Online_Retail.xlsx'  # Path to the zip file
+  
+    df = load_data(retail_file_path)
+
+    # Prepare data for Prophet (Assume 'date' and 'value' columns for time series)
+    df['ds'] = pd.to_datetime(df['InvoiceDate'])
+    df['y'] = df['UnitPrice']
 
     model = Prophet()
-    model.fit(df_sales)
-    future = model.make_future_dataframe(df_sales, periods=365)
+    model.fit(df)
+    future = model.make_future_dataframe( periods=365)
     forecast = model.predict(future)
 
     # Plot the forecast and confidence intervals
     st.subheader("Sales Forecast with Confidence Intervals")
     fig1 = model.plot(forecast)
     st.pyplot(fig1)
-    plot_metrics(forecast)
+    plot_metrics(forecast, df)
 
     # Show trend and seasonal components
     st.subheader("Sales Trend and Seasonal Components")
@@ -68,71 +72,71 @@ def run_forecasting():
 
     # 2. **Demand Forecasting** - Hourly Demand Data
     st.subheader("Demand Forecasting")
-    demand_data_url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv"  # replace with your dataset
-    df_demand = load_data(demand_data_url)
-    df_demand.columns = ['ds', 'y']
-    df_demand['ds'] = pd.to_datetime(df_demand['ds'])
+    # demand_data_url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv"  # replace with your dataset
+    # df_demand = load_data(demand_data_url)
+    # df_demand.columns = ['ds', 'y']
+    # df_demand['ds'] = pd.to_datetime(df_demand['ds'])
 
-    model.fit(df_demand)
-    future_demand = model.make_future_dataframe(df_demand, periods=12)
-    forecast_demand = model.predict(future_demand)
+    # model.fit(df_demand)
+    # future_demand = model.make_future_dataframe(df_demand, periods=12)
+    # forecast_demand = model.predict(future_demand)
 
     # Plot the forecast and confidence intervals for demand
-    st.subheader("Demand Forecast with Confidence Intervals")
-    fig3 = model.plot(forecast_demand)
-    st.pyplot(fig3)
-    plot_metrics(forecast_demand)
+    # st.subheader("Demand Forecast with Confidence Intervals")
+    # fig3 = model.plot(forecast_demand)
+    # st.pyplot(fig3)
+    # plot_metrics(forecast_demand)
 
     # Show trend and seasonal components for demand
-    st.subheader("Demand Trend and Seasonal Components")
-    fig4 = model.plot_components(forecast_demand)
-    st.pyplot(fig4)
+    # st.subheader("Demand Trend and Seasonal Components")
+    # fig4 = model.plot_components(forecast_demand)
+    # st.pyplot(fig4)
 
     # Explain Demand Forecasting Metrics
-    st.subheader("Demand Forecasting Metrics Explained")
-    st.write(
-        "1. **`yhat`**: The predicted future demand for a product (e.g., number of passengers). This helps businesses plan production and inventory.\n"
-        "2. **`yhat_lower` and `yhat_upper`**: These are the 80% confidence intervals around the demand forecast. "
-        "A wider interval may indicate uncertainty, while a narrower interval suggests more certainty.\n"
-        "3. **Trend**: Shows whether the demand is increasing or decreasing over time, which is useful for long-term planning.\n"
-        "4. **Seasonality**: Captures regular patterns in the demand, such as seasonal fluctuations in airline passengers during peak travel seasons."
-    )
+    # st.subheader("Demand Forecasting Metrics Explained")
+    # st.write(
+    #     "1. **`yhat`**: The predicted future demand for a product (e.g., number of passengers). This helps businesses plan production and inventory.\n"
+    #     "2. **`yhat_lower` and `yhat_upper`**: These are the 80% confidence intervals around the demand forecast. "
+    #     "A wider interval may indicate uncertainty, while a narrower interval suggests more certainty.\n"
+    #     "3. **Trend**: Shows whether the demand is increasing or decreasing over time, which is useful for long-term planning.\n"
+    #     "4. **Seasonality**: Captures regular patterns in the demand, such as seasonal fluctuations in airline passengers during peak travel seasons."
+    # )
 
     # 3. **Financial Forecasting** - Stock Prices using Yahoo Finance
-    st.subheader("Financial Forecasting")
-    stock_ticker = st.text_input("Enter Stock Ticker (e.g., AAPL, MSFT)", value="AAPL")
+    # st.subheader("Financial Forecasting")
+    # stock_ticker = st.text_input("Enter Stock Ticker (e.g., AAPL, MSFT)", value="AAPL")
     
     # Download stock data from Yahoo Finance (past 3 years)
-    stock_data = yf.download(stock_ticker, period="3y", interval="1d")
-    stock_data.reset_index(inplace=True)
-    df_stock = stock_data[['Date', 'Close']]
-    df_stock.columns = ['ds', 'y']
-    df_stock['ds'] = pd.to_datetime(df_stock['ds'])
+    # stock_data = yf.download(stock_ticker, period="3y", interval="1d")
+    # stock_data.reset_index(inplace=True)
+    # df_stock = stock_data[['Date', 'Close']]
+    # df_stock.columns = ['ds', 'y']
+    # df_stock['ds'] = pd.to_datetime(df_stock['ds'])
 
-    model.fit(df_stock)
-    future_stock = model.make_future_dataframe(df_stock, periods=30)
-    forecast_stock = model.predict(future_stock)
+    # model.fit(df_stock)
+    # future_stock = model.make_future_dataframe(df_stock, periods=30)
+    # forecast_stock = model.predict(future_stock)
 
     # Plot the forecast and confidence intervals for financial forecasting
-    st.subheader(f"{stock_ticker} Stock Price Forecast with Confidence Intervals")
-    fig5 = model.plot(forecast_stock)
-    st.pyplot(fig5)
-    plot_metrics(forecast_stock)
+    # st.subheader(f"{stock_ticker} Stock Price Forecast with Confidence Intervals")
+    # fig5 = model.plot(forecast_stock)
+    # st.pyplot(fig5)
+    # plot_metrics(forecast_stock)
 
     # Show trend and seasonal components for stock data
-    st.subheader(f"{stock_ticker} Trend and Seasonal Components")
-    fig6 = model.plot_components(forecast_stock)
-    st.pyplot(fig6)
+    # st.subheader(f"{stock_ticker} Trend and Seasonal Components")
+    # fig6 = model.plot_components(forecast_stock)
+    # st.pyplot(fig6)
 
     # Explain Financial Forecasting Metrics
-    st.subheader("Financial Forecasting Metrics Explained")
-    st.write(
-        "1. **`yhat`**: The predicted future stock price. It indicates the expected value of the stock at a given time in the future.\n"
-        "2. **`yhat_lower` and `yhat_upper`**: These are the confidence intervals. A narrow range indicates a high level of confidence, "
-        "while a wider range suggests more volatility or uncertainty in the prediction.\n"
-        "3. **Trend**: Shows the overall direction of the stock price (upward or downward) over time.\n"
-        "4. **Seasonality**: Captures any recurring patterns or cycles, such as quarterly earnings cycles or market reactions to specific events."
-    )
+    # st.subheader("Financial Forecasting Metrics Explained")
+    # st.write(
+    #     "1. **`yhat`**: The predicted future stock price. It indicates the expected value of the stock at a given time in the future.\n"
+    #     "2. **`yhat_lower` and `yhat_upper`**: These are the confidence intervals. A narrow range indicates a high level of confidence, "
+    #     "while a wider range suggests more volatility or uncertainty in the prediction.\n"
+    #     "3. **Trend**: Shows the overall direction of the stock price (upward or downward) over time.\n"
+    #     "4. **Seasonality**: Captures any recurring patterns or cycles, such as quarterly earnings cycles or market reactions to specific events."
+    # )
 
     # Add a business use case section
     st.subheader("Business Use Case: Sales Forecasting")
