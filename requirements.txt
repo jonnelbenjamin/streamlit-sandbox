@@ -22,3 +22,6 @@ streamlit-folium
 shapely
 pydeck
 geodatasets
+scipy
+plotly
+networkx
