@@ -16,7 +16,7 @@ def train_automl_models(df, h2o_df, target_col, selected_features, max_models, m
     y = target_col
     x = selected_features
     
-    is_numeric_target = df[target_col].dtype in [np.int64, np.float64]
+    is_numeric_target = np.issubdtype(df[target_col].dtype, np.number)
     
     # Log transformation for target variable option
     if is_numeric_target and problem_type != "Classification":
