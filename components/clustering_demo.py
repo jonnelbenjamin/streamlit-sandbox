@@ -216,10 +216,13 @@ def show_clustering_demo():
         
         if n_clusters > 0:
             st.subheader("Performance Metrics")
+            silhouette_display = f"{silhouette:.2f}" if silhouette else "N/A (only 1 cluster)"
+            davies_bouldin_display = f"{davies_bouldin:.2f}" if davies_bouldin else "N/A (only 1 cluster)"
+            calinski_harabasz_display = f"{calinski_harabasz:.2f}" if calinski_harabasz else "N/A (only 1 cluster)"
             st.write(f"""
-            - **Silhouette Score**: {silhouette:.2f if silhouette else 'N/A (only 1 cluster)'}
-            - **Davies-Bouldin Index**: {davies_bouldin:.2f if davies_bouldin else 'N/A (only 1 cluster)'}
-            - **Calinski-Harabasz Index**: {calinski_harabasz:.2f if calinski_harabasz else 'N/A (only 1 cluster)'}
+            - **Silhouette Score**: {silhouette_display}
+            - **Davies-Bouldin Index**: {davies_bouldin_display}
+            - **Calinski-Harabasz Index**: {calinski_harabasz_display}
             """)
         
         st.markdown("""
