@@ -9,7 +9,7 @@ import pandas as pd
 from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting, h2o_automl, geopandas_demo
 
 # Page configuration (moved to top so it applies to all pages)
-st.set_page_config(page_title="ML Sandbox", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="ML Sandbox", page_icon="🤖", layout="centered")
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -98,7 +98,7 @@ elif app_mode == "Prophet Forecasting":
 elif app_mode == "H2O AutoML":
     h2o_automl.show()
 elif app_mode == "Geopandas":
-    geopandas_demo.show_geopandas_demo()
+    geopandas_demo.main()
 
 
 # Footer (shared across all pages)
