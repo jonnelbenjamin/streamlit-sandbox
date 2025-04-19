@@ -6,7 +6,7 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import wikipedia
 
 import pandas as pd
-from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting, h2o_automl, geopandas_demo
+from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting, h2o_automl, geopandas_demo, clustering_demo
 
 # Page configuration (moved to top so it applies to all pages)
 st.set_page_config(page_title="ML Sandbox", page_icon="🤖", layout="centered")
@@ -25,7 +25,8 @@ app_mode = st.sidebar.radio("", [
     "Multimodal Playground",
     "Prophet Forecasting",
     "H2O AutoML",
-    "Geopandas"
+    "Geopandas",
+    "Clustering Demo"
 ], index=0)
 
 # Welcome page function
@@ -99,6 +100,8 @@ elif app_mode == "H2O AutoML":
     h2o_automl.show()
 elif app_mode == "Geopandas":
     geopandas_demo.main()
+elif app_mode == "Clustering Demo":
+    clustering_demo.show_clustering_demo()
 
 
 # Footer (shared across all pages)
