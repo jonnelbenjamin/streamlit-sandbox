@@ -1,5 +1,29 @@
-# streamlit-sandbox
-Sandbox for testing features and use cases for streamlit and huggingface libraries
+
+# Streamlit Sandbox Components
+
+Explore a collection of interactive ML & Data Science Libraries. Here are the currently available modules:
+
+## 🧩 Available Components
+
+| Component | Description | Key Technologies |
+|-----------|------------|------------------|
+| **🧠 Dependency Visualizer** | Visualize linguistic dependencies in text | SpaCy, NetworkX |
+| **🔍 Entity Visualizer** | Interactive named entity recognition visualization | SpaCy, Streamlit |
+| **❓ QA System** | Question answering system with context | Transformers, Haystack |
+| **🎨 Image Generator** | Generate images from text prompts | Stable Diffusion, Hugging Face |
+| **📊 NER Statistics** | Named Entity Recognition analytics dashboard | SpaCy, Pandas |
+| **🖼️ Multimodal Playground** | Experiment with text+image models | CLIP, OpenAI |
+| **🔮 Prophet Forecasting** | Time series forecasting tool | Facebook Prophet, Plotly |
+| **🤖 H2O AutoML** | Automated machine learning interface | H2O.ai, Scikit-learn |
+| **🌍 Geopandas** | Geospatial data analysis and visualization | Geopandas, Folium |
+| **📊 Clustering Demo** | Interactive clustering algorithm explorer | Scikit-learn, Plotly |
+
+## 🚀 Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/streamlit-sandbox.git
+   cd streamlit-sandbox
 
 #### Run the following command for starting application
 
@@ -39,15 +63,14 @@ Run the application with the following command:
 
 
 #### Folder Structure
-streamlit-sandbox/
-├── app.py                  # Main entry point
-├── components/
-│   ├── __init__.py
-│   ├── dependency_viz.py   # Dependency visualizer
-│   ├── entity_viz.py       # Entity visualizer
-│   ├── qa_system.py       # Question answering
-│   ├── image_gen.py       # Image generator
-│   └── ner_stats.py       # NER statistics
-└── utils/
-    ├── __init__.py
-    └── config.py          # Shared configurations
+components/
+├── dependency_visualizer.py
+├── entity_visualizer.py
+├── qa_system.py
+├── image_generator.py
+├── ner_statistics.py
+├── multimodal_playground.py
+├── prophet_forecasting.py
+├── h2o_automl.py
+├── geopandas_demo.py
+└── clustering_demo.py
