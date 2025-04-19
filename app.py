@@ -6,10 +6,10 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import wikipedia
 
 import pandas as pd
-from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting
+from components import dependency_viz, entity_viz, qa_system, image_gen, ner_stats, huggingface_multimodal, forecasting, h2o_automl, geopandas_demo
 
 # Page configuration (moved to top so it applies to all pages)
-st.set_page_config(page_title="ML Sandbox", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="ML Sandbox", page_icon="🤖", layout="centered")
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -23,8 +23,10 @@ app_mode = st.sidebar.radio("", [
     "Image Generator",
     "NER Statistics",
     "Multimodal Playground",
-    "Prophet Forecasting"
-])
+    "Prophet Forecasting",
+    "H2O AutoML",
+    "Geopandas"
+], index=0)
 
 # Welcome page function
 def show_welcome():
@@ -93,6 +95,10 @@ elif app_mode == "Multimodal Playground":
     huggingface_multimodal.show()
 elif app_mode == "Prophet Forecasting":
     forecasting.run_forecasting()
+elif app_mode == "H2O AutoML":
+    h2o_automl.show()
+elif app_mode == "Geopandas":
+    geopandas_demo.main()
 
 
 # Footer (shared across all pages)

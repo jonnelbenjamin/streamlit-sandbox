@@ -13,3 +13,15 @@ scikit-learn
 prophet
 yfinance
 openpyxl
+h2o>=3.38.0
+pillow>=8.0.0
+geopandas
+matplotlib
+folium
+streamlit-folium
+shapely
+pydeck
+geodatasets
+scipy
+plotly
+networkx
