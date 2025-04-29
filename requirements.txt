@@ -25,3 +25,4 @@ geodatasets
 scipy
 plotly
 networkx
+statsmodels
